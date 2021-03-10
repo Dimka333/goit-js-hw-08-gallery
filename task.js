@@ -27,13 +27,26 @@ galleryListRef.insertAdjacentHTML('afterbegin', createListItem(galleryItems));
 
 const lightboxRef = document.querySelector('.lightbox');
 const imgboxRef = document.querySelector('.lightbox__image')
+const btnCloseLightBox = document.querySelector('.lightbox__button')
+const overlayRef = document.querySelector('.lightbox__overlay')
 
 
+galleryListRef.addEventListener('click', openModal);
+btnCloseLightBox.addEventListener('click', closeModal);
+overlayRef.addEventListener('click', closeModal);
 
 
-galleryListRef.addEventListener('click', event => {
-  if (event.target.nodeName === 'IMG') {
-    lightboxRef.classList.add('is-open')
+function openModal(event) {
+  event.preventDefault();
+  if (!event.target.nodeName === 'IMG') return
+   imgboxRef.src = event.target.dataset.source;
+  lightboxRef.classList.add('is-open')
+  
+};
+
+function closeModal(event) {
+  if (btnCloseLightBox || event.code === 'Escape' ) {
+    lightboxRef.classList.remove('is-open');
+    imgboxRef.src = '';
   }
-
-});
+};
